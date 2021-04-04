@@ -11,9 +11,17 @@ export const ProjectListScreen = () => {
   const [users, setUsers] = useState([]);
   // 搜索参数变化调用接口获取数据projects
   useEffect(() => {
-    fetch(
-      `${apiURL}/projects?name=${param.name}&personId=${param.personId}`
-    ).then(async (response) => {
+    let URL = `${apiURL}/projects?name=${param.name}&personId=${param.personId}`;
+    if (param.name === '' && param.personId !== '') {
+      URL = `${apiURL}/projects?personId=${param.personId}`;
+    }
+    if (param.name !== '' && param.personId === '') {
+      URL = `${apiURL}/projects?name=${param.name}`;
+    }
+    if (param.name === '' && param.personId === '') {
+      URL = `${apiURL}/projects`;
+    }
+    fetch(URL).then(async (response) => {
       if (response.ok) {
         console.log(response);
         setList(await response.json());
