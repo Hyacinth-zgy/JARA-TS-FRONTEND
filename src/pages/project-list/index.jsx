@@ -1,24 +1,26 @@
 import React, {useEffect, useState} from 'react';
 import {SearchPannel} from './search-pannel';
 import {List} from './list';
+import {useDebounce} from '../../utils/helper';
 const apiURL = process.env.REACT_APP_API_URL;
 export const ProjectListScreen = () => {
   const [param, setParam] = useState({
     name: '',
     personId: '',
   });
+  const debounceParam = useDebounce(param, 2000);
   const [list, setList] = useState([]);
   const [users, setUsers] = useState([]);
   // 搜索参数变化调用接口获取数据projects
   useEffect(() => {
-    let URL = `${apiURL}/projects?name=${param.name}&personId=${param.personId}`;
-    if (param.name === '' && param.personId !== '') {
-      URL = `${apiURL}/projects?personId=${param.personId}`;
+    let URL = `${apiURL}/projects?name=${debounceParam.name}&personId=${debounceParam.personId}`;
+    if (debounceParam.name === '' && debounceParam.personId !== '') {
+      URL = `${apiURL}/projects?personId=${debounceParam.personId}`;
     }
-    if (param.name !== '' && param.personId === '') {
-      URL = `${apiURL}/projects?name=${param.name}`;
+    if (debounceParam.name !== '' && debounceParam.personId === '') {
+      URL = `${apiURL}/projects?name=${debounceParam.name}`;
     }
-    if (param.name === '' && param.personId === '') {
+    if (debounceParam.name === '' && debounceParam.personId === '') {
       URL = `${apiURL}/projects`;
     }
     fetch(URL).then(async (response) => {
@@ -27,7 +29,7 @@ export const ProjectListScreen = () => {
         setList(await response.json());
       }
     });
-  }, [param]);
+  }, [debounceParam]);
   // 调用接口获取USER
   useEffect(() => {
     fetch(`${apiURL}/users`).then(async (response) => {
