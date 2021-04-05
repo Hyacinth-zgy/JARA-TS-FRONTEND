@@ -12,9 +12,9 @@ export const clearObject = (obj: object) => {
 };
 
 //
-export const deBounce = (func: (val: any) => void, delay: number) => {
+export const deBounce = (func: (val: unknown) => void, delay: number) => {
   let timeId: any;
-  return function (value: any) {
+  return function (value: unknown) {
     if (timeId) {
       clearTimeout(timeId);
     }
@@ -24,7 +24,8 @@ export const deBounce = (func: (val: any) => void, delay: number) => {
   };
 };
 
-export const useDebounce = (value: any, delay?: number) => {
+// 对useDebounce添加了泛型
+export const useDebounce = <V>(value: V, delay?: number): V => {
   const [debounceValue, setDebounceValue] = useState(value);
   useEffect(() => {
     // 每次value变化以后设置一个定时器
