@@ -8,3 +8,16 @@ export const clearObject = (obj) => {
   });
   return objData;
 };
+
+//
+export const deBounce = (func, delay) => {
+  let timeId;
+  return function (value) {
+    if (timeId) {
+      clearTimeout(timeId);
+    }
+    timeId = setTimeout(() => {
+      func(value);
+    }, delay);
+  };
+};
