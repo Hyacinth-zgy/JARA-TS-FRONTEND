@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react';
 
-export const clearObject = (obj) => {
+export const clearObject = (obj: object) => {
   const objData = JSON.parse(JSON.stringify(obj));
   const keys = Object.keys(obj);
   keys.forEach((key) => {
@@ -12,9 +12,9 @@ export const clearObject = (obj) => {
 };
 
 //
-export const deBounce = (func, delay) => {
-  let timeId;
-  return function (value) {
+export const deBounce = (func: (val: any) => void, delay: number) => {
+  let timeId: any;
+  return function (value: any) {
     if (timeId) {
       clearTimeout(timeId);
     }
@@ -24,7 +24,7 @@ export const deBounce = (func, delay) => {
   };
 };
 
-export const useDebounce = (value, delay) => {
+export const useDebounce = (value: any, delay?: number) => {
   const [debounceValue, setDebounceValue] = useState(value);
   useEffect(() => {
     // 每次value变化以后设置一个定时器
