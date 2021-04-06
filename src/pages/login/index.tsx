@@ -7,6 +7,7 @@ export const LoginScreen = () => {
   }
   let login: (param: loginParam) => void;
   login = (param) => {
+    // refresh的API不支持此接口，所以要为JSONSERVER撰写中间件
     fetch(`${apiURL}/login`, {
       method: 'POST',
       headers: {
