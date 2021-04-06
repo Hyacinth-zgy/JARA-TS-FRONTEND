@@ -38,6 +38,7 @@ export const useDebounce = <V>(value: V, delay?: number): V => {
   return debounceValue;
 };
 
+// 有时候我们不知道返回值的类型，这时候需要通过泛型，根据传入的参数类型推断出返回值的类型，使用泛型即可
 export const useArray = <V>(val: V[]) => {
   const [value, setValue] = useState(val);
   return {
