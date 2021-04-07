@@ -11,3 +11,8 @@ export interface loginParam {
   username: string;
   password: string;
 }
+
+export interface AuthForm {
+  username: string;
+  password: string;
+}

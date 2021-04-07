@@ -13,8 +13,9 @@ export const handleUserResponse = ({user}: {user: User}) => {
   return user;
 };
 
-export const login = (data: loginParam) => {
-  fetch(`${apiURL}/login`, {
+export let login: (data: loginParam) => Promise<User | never>;
+login = (data: loginParam) => {
+  return fetch(`${apiURL}/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -23,12 +24,15 @@ export const login = (data: loginParam) => {
   }).then(async (response) => {
     if (response.ok) {
       return handleUserResponse(await response.json());
+    } else {
+      return Promise.reject(data);
     }
   });
 };
 
-export const register = (data: loginParam) => {
-  fetch(`${apiURL}/register`, {
+// Promise是一个泛型接口
+export const register = (data: loginParam): Promise<User | never> => {
+  return fetch(`${apiURL}/register`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -37,8 +41,19 @@ export const register = (data: loginParam) => {
   }).then(async (response) => {
     if (response.ok) {
       return handleUserResponse(await response.json());
+    } else {
+      return Promise.reject(data);
     }
   });
 };
 
-export const logout = () => window.localStorage.removeItem(localStorageKey);
+export const logout = async () =>
+  window.localStorage.removeItem(localStorageKey);
+
+// 多个返回值
+export const addNumber = (value: number): number | boolean => {
+  if (value === 1) {
+    return value;
+  }
+  return false;
+};
