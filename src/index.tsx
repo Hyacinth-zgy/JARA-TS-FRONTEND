@@ -5,13 +5,16 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {loadDevTools} from 'jira-dev-tool';
 import {AppProviders} from './context/index';
+import Index from './syudy-context/index';
 
 loadDevTools(() =>
   ReactDOM.render(
     <React.StrictMode>
-      <AppProviders>
+      {/* <AppProviders>
         <App />
-      </AppProviders>
+      </AppProviders> */}
+      {/* 下面的Index是用来学习React Context的 */}
+      <Index></Index>
     </React.StrictMode>,
     document.getElementById('root')
   )
