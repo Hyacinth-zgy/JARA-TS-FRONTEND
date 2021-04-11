@@ -1,5 +1,6 @@
-import {useAuth} from '../../context/auth-context';
 import React from 'react';
+import {useAuth} from '../../context/auth-context';
+import {Form, Input} from 'antd';
 export const LoginScreen = () => {
   const {login, user} = useAuth();
   let handlSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
@@ -13,17 +14,18 @@ export const LoginScreen = () => {
     login({username, password});
   };
   return (
-    <form onSubmit={handlSubmit}>
+    // onSubmit={handlSubmit}
+    <Form>
       登录成功，用户名:{user?.name}
-      <div>
+      <Form.Item name={'username'}>
         <label htmlFor="username">用户名</label>
-        <input type="text" id={'username'} />
-      </div>
-      <div>
+        <Input type="text" placeholder={'用户名'} id={'username'} />
+      </Form.Item>
+      <Form.Item>
         <label htmlFor="password">密码</label>
-        <input type="password" id={'password'} />
-      </div>
+        <Input type="password" placeholder={'密码'} id={'password'} />
+      </Form.Item>
       <button type={'submit'}>登录</button>
-    </form>
+    </Form>
   );
 };
