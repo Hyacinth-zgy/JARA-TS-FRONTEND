@@ -92,3 +92,8 @@ const xiaoZhao: Partial<perSon> = {name: 'aaaa'}; // 只传名字
 // 需求2:只需要age，但是没有name（传name就要错）,
 // 使用Utility Type Partial Omit<Type，需要删除的属性>
 const shenMiRen: Omit<Person, 'name' | 'age'> = {};
+
+// Partial:的实现
+type Partial<T> = {
+  [P in keyof T]?: T[P];
+};
