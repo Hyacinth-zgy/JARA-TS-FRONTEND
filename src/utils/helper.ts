@@ -1,14 +1,16 @@
 import {useState, useEffect} from 'react';
-
-export const clearObject = (obj: object) => {
-  const objData = JSON.parse(JSON.stringify(obj));
-  const keys = Object.keys(obj);
-  keys.forEach((key) => {
-    if (objData[key] === '') {
-      delete objData[key];
+export const isVoid = (value: unknown) =>
+  value === undefined || value === null || value === '';
+export const cleanObject = (object: {[key: string]: unknown}) => {
+  // Object.assign({}, object)
+  const result = {...object};
+  Object.keys(result).forEach((key) => {
+    const value = result[key];
+    if (isVoid(value)) {
+      delete result[key];
     }
   });
-  return objData;
+  return result;
 };
 
 //
@@ -54,4 +56,11 @@ export const useArray = <V>(val: V[]) => {
       setValue([]);
     },
   };
+};
+
+export const useMount = (callback: () => void) => {
+  useEffect(() => {
+    callback();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 };

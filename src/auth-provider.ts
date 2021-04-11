@@ -4,7 +4,7 @@ const apiURL = process.env.REACT_APP_API_URL;
 const localStorageKey = '__auth_provider_token__';
 
 export const getToken = () => {
-  window.localStorage.getItem(localStorageKey);
+  return window.localStorage.getItem(localStorageKey);
 };
 
 // user属性是User类型

@@ -1,6 +1,17 @@
 import React, {useState, ReactNode} from 'react';
 import {AuthForm, User} from '../utils/interface';
 import * as AUTH from '../auth-provider';
+import {useMount} from '../utils/helper';
+import {http} from '../utils/request';
+const bootstrapUser = async () => {
+  let user = null;
+  const token = AUTH.getToken();
+  if (token) {
+    const data = await http('me', {token});
+    user = data.user;
+  }
+  return user;
+};
 const AuthContext = React.createContext<
   | {
       user: User | null;
@@ -26,6 +37,10 @@ export const AuthProvider = ({children}: {children: ReactNode}) => {
     AUTH.logout().then(() => {
       setUser(null);
     });
+  useMount(() => {
+    // 初始化时获取user信息
+    bootstrapUser().then(setUser);
+  });
   return (
     <AuthContext.Provider
       children={children}

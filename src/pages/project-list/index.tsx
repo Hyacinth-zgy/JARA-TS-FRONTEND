@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {SearchPannel} from './search-pannel';
 import {List} from './list';
-import {useDebounce} from '../../utils/helper';
-const apiURL = process.env.REACT_APP_API_URL;
+import {useDebounce, cleanObject} from '../../utils/helper';
+import {useHttp} from '../../utils/request';
 export const ProjectListScreen = () => {
   const [param, setParam] = useState({
     name: '',
@@ -12,32 +12,38 @@ export const ProjectListScreen = () => {
   const debounceParam = useDebounce(param, 2000);
   const [list, setList] = useState([]);
   const [users, setUsers] = useState([]);
+  const client = useHttp();
+
   // 搜索参数变化调用接口获取数据projects
   useEffect(() => {
-    let URL = `${apiURL}/projects?name=${debounceParam.name}&personId=${debounceParam.personId}`;
-    if (debounceParam.name === '' && debounceParam.personId !== '') {
-      URL = `${apiURL}/projects?personId=${debounceParam.personId}`;
-    }
-    if (debounceParam.name !== '' && debounceParam.personId === '') {
-      URL = `${apiURL}/projects?name=${debounceParam.name}`;
-    }
-    if (debounceParam.name === '' && debounceParam.personId === '') {
-      URL = `${apiURL}/projects`;
-    }
-    fetch(URL).then(async (response) => {
-      if (response.ok) {
-        console.log(response);
-        setList(await response.json());
-      }
-    });
+    // let URL = `${apiURL}/projects?name=${debounceParam.name}&personId=${debounceParam.personId}`;
+    // if (debounceParam.name === '' && debounceParam.personId !== '') {
+    //   URL = `${apiURL}/projects?personId=${debounceParam.personId}`;
+    // }
+    // if (debounceParam.name !== '' && debounceParam.personId === '') {
+    //   URL = `${apiURL}/projects?name=${debounceParam.name}`;
+    // }
+    // if (debounceParam.name === '' && debounceParam.personId === '') {
+    //   URL = `${apiURL}/projects`;
+    // }
+    client('projects', {data: cleanObject(debounceParam)}).then(setList);
+    // fetch(URL).then(async (response) => {
+    //   if (response.ok) {
+    //     console.log(response);
+    //     setList(await response.json());
+    //   }
+    // });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debounceParam]);
   // 调用接口获取USER
   useEffect(() => {
-    fetch(`${apiURL}/users`).then(async (response) => {
-      if (response.ok) {
-        setUsers(await response.json());
-      }
-    });
+    // fetch(`${apiURL}/users`).then(async (response) => {
+    //   if (response.ok) {
+    //     setUsers(await response.json());
+    //   }
+    // });
+    client('users').then(setUsers);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
