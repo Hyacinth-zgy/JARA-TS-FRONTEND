@@ -1,21 +1,48 @@
 import React, {useState} from 'react';
 import {RegisterScreen} from './register';
 import {LoginScreen} from './login';
-import {Card} from 'antd';
+import {Card, Divider} from 'antd';
+// 引入CSS-IN-JS emotion
+import styled from '@emotion/styled';
 export const UnauthenticatedApp = () => {
   const [isRegister, setIsRegister] = useState(false);
   return (
-    <div style={{display: 'flex', justifyContent: 'center'}}>
-      <Card>
+    // 使用样式组件
+    <Container>
+      {/* <Card> */}
+      {/* 替换Card组件 */}
+      <ShadowCard>
         {isRegister ? <RegisterScreen /> : <LoginScreen />}
-        <button
+        <Divider></Divider>
+        <a
+          href="javascrit:void"
           onClick={() => {
             setIsRegister(!isRegister);
           }}
         >
-          切换到{isRegister ? '登录' : '注册'}
-        </button>
-      </Card>
-    </div>
+          切换到{isRegister ? '已经有账号了，直接登录' : '没有账号，注册新账号'}
+        </a>
+        {/* </Card> */}
+      </ShadowCard>
+    </Container>
   );
 };
+
+// ant-组件:
+const ShadowCard = styled(Card)`
+  width: 40rem;
+  min-height: 56rem;
+  padding: 3.2rem 4rem;
+  border-radius: 0.3rem;
+  box-sizing: border-box;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 0 10px;
+  text-align: center;
+`;
+
+// 原生html元素:创建样式组件
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+`;
