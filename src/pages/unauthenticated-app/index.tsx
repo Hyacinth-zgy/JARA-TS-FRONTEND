@@ -4,6 +4,9 @@ import {LoginScreen} from './login';
 import {Card, Divider} from 'antd';
 // 引入CSS-IN-JS emotion
 import styled from '@emotion/styled';
+import logo from '../../../assets/images/logo.svg';
+import left from '../../../assets/images/logo.svg';
+import right from '../../../assets/images/logo.svg';
 export const UnauthenticatedApp = () => {
   const [isRegister, setIsRegister] = useState(false);
   return (
