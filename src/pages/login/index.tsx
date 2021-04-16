@@ -33,6 +33,7 @@ export const LoginScreen = () => {
       .value;
     const password = (event.currentTarget.elements[1] as HTMLInputElement)
       .value;
+    console.log(1);
     login({username, password});
   };
   return (
