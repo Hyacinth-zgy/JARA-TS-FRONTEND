@@ -1,6 +1,7 @@
 import {useAuth} from '../../context/auth-context';
 import React from 'react';
 import {Form, Input, Button} from 'antd';
+import styled from '@emotion/styled';
 export const RegisterScreen = () => {
   const {register} = useAuth();
   // 原生button写的
@@ -41,10 +42,14 @@ export const RegisterScreen = () => {
         <Input placeholder={'确认密码'} type="password" id={'cpassword'} />
       </Form.Item>
       <Form.Item>
-        <Button htmlType={'submit'} type={'primary'}>
+        <LongButton htmlType={'submit'} type={'primary'}>
           注册
-        </Button>
+        </LongButton>
       </Form.Item>
     </Form>
   );
 };
+
+const LongButton = styled(Button)`
+  width: 100%;
+`;

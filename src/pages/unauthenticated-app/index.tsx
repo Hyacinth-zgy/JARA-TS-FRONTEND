@@ -4,17 +4,18 @@ import {LoginScreen} from './login';
 import {Card, Divider} from 'antd';
 // 引入CSS-IN-JS emotion
 import styled from '@emotion/styled';
-import logo from '../../../assets/images/logo.svg';
-import left from '../../../assets/images/logo.svg';
-import right from '../../../assets/images/logo.svg';
+import logo from '../../assets/images/logo.png';
+import loginBG from '../../assets/images/login-bg.jpg';
 export const UnauthenticatedApp = () => {
   const [isRegister, setIsRegister] = useState(false);
   return (
     // 使用样式组件
     <Container>
+      <Header />
       {/* <Card> */}
       {/* 替换Card组件 */}
       <ShadowCard>
+        <Title>{isRegister ? '请注册' : '请登录'}</Title>
         {isRegister ? <RegisterScreen /> : <LoginScreen />}
         <Divider></Divider>
         <a
@@ -30,6 +31,18 @@ export const UnauthenticatedApp = () => {
     </Container>
   );
 };
+
+const Title = styled.div`
+  margin-bottom: 3.2rem;
+  color: rgba(94, 108, 132);
+`;
+
+const Header = styled.header`
+  background: url(${logo}) no-repeat center;
+  padding: 5rem 0;
+  background-size: 8rem;
+  width: 100%;
+`;
 
 // ant-组件:
 const ShadowCard = styled(Card)`
@@ -48,4 +61,6 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
+  background: url(${loginBG}) no-repeat center;
+  background-size: 100vw 100vh;
 `;

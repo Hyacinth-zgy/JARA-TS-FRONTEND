@@ -1,6 +1,7 @@
 import React from 'react';
 import {useAuth} from '../../context/auth-context';
 import {Form, Input, Button} from 'antd';
+import styled from '@emotion/styled';
 export const LoginScreen = () => {
   const {login, user} = useAuth();
   // 使用原生时的值获取和提交
@@ -35,10 +36,14 @@ export const LoginScreen = () => {
         <Input placeholder={'密码'} type="password" id={'password'} />
       </Form.Item>
       <Form.Item>
-        <Button htmlType={'submit'} type={'primary'}>
+        <LongButton htmlType={'submit'} type={'primary'}>
           登录
-        </Button>
+        </LongButton>
       </Form.Item>
     </Form>
   );
 };
+
+const LongButton = styled(Button)`
+  width: 100%;
+`;
