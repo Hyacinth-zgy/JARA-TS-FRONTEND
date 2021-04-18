@@ -3,24 +3,34 @@ import {ProjectListScreen} from './pages/project-list/index';
 import {useAuth} from './context/auth-context';
 import styled from '@emotion/styled';
 import {Row} from './components/libs';
+import Logo from '../src/assets/images/logon.png';
+import {Dropdown, Menu, Button} from 'antd';
 export const AuthenticatedApp = () => {
-  const {logout} = useAuth();
+  const {logout, user} = useAuth();
   return (
     <Container>
       <Header between={true}>
         <HeaderLeft gap={true}>
-          <div>Logo</div>
+          <LogoCom />
           <div>项目</div>
           <div>用户</div>
         </HeaderLeft>
         <HeaderRight>
-          <button
-            onClick={() => {
-              logout();
-            }}
+          <Dropdown
+            overlay={
+              <Menu>
+                <Menu.Item key={'logout'}>
+                  <Button onClick={logout} type={'link'}>
+                    登出
+                  </Button>
+                </Menu.Item>
+              </Menu>
+            }
           >
-            退出
-          </button>
+            <Button type={'link'} onClick={(e) => e.preventDefault()}>
+              Hi, {user?.name}
+            </Button>
+          </Dropdown>
         </HeaderRight>
       </Header>
       {/* <Nav>nav</Nav> */}
@@ -57,12 +67,14 @@ const Container = styled.div`
     'header header header'
     'nav main aside'
     'footer footer footer'; */
-  grid-row-gap: 10rem;
+  /* grid-row-gap: 10rem; */
 `;
 
 // 已被下面方法抽取
 const Header = styled(Row)`
   grid-area: header;
+  padding: 3.2rem;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
 `;
 
 const HeaderLeft = styled(Row)`
@@ -83,4 +95,11 @@ const Main = styled.main`
 // `;
 const Footer = styled.footer`
   grid-area: footer;
+`;
+
+const LogoCom = styled.div`
+  background: url(${Logo}) no-repeat center;
+  width: 18rem;
+  height: 6rem;
+  background-size: 18rem 6rem;
 `;

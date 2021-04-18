@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {SearchPannel} from './search-pannel';
 import {List} from './list';
 import {useDebounce, cleanObject} from '../../utils/helper';
+import styled from '@emotion/styled';
 import {useHttp} from '../../utils/request';
 export const ProjectListScreen = () => {
   const [param, setParam] = useState({
@@ -47,13 +48,18 @@ export const ProjectListScreen = () => {
   }, []);
 
   return (
-    <div>
+    <Container>
+      <h1>项目列表</h1>
       <SearchPannel
         param={param}
         setParam={setParam}
         users={users}
       ></SearchPannel>
       <List list={list} users={users}></List>
-    </div>
+    </Container>
   );
 };
+
+const Container = styled.main`
+  padding: 20px;
+`;
