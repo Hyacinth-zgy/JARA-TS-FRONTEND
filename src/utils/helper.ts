@@ -1,6 +1,10 @@
 import {useState, useEffect} from 'react';
 export const isVoid = (value: unknown) =>
   value === undefined || value === null || value === '';
+
+// TS中的object函数类型比较广泛，函数可以是object类型，正则表达式也可以是，如果想限制{a:b}这种格式的，可以使用以下方法:
+// object: {[key: string]: unknown}
+
 export const cleanObject = (object: {[key: string]: unknown}) => {
   // Object.assign({}, object)
   const result = {...object};
@@ -61,6 +65,7 @@ export const useArray = <V>(val: V[]) => {
 export const useMount = (callback: () => void) => {
   useEffect(() => {
     callback();
+    // TODO 依赖项里加上callback会造成无限循环，这个和usecallback以及useMemo有关系
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 };

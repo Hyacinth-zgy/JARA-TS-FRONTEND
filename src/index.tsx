@@ -3,15 +3,16 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {loadDevTools} from 'jira-dev-tool';
+import {DevTools, loadServer} from 'jira-dev-tool';
 import 'antd/dist/antd.less';
 import {AppProviders} from './context/index';
 // import Index from './syudy-context/index';
 
-loadDevTools(() =>
+loadServer(() =>
   ReactDOM.render(
     <React.StrictMode>
       <AppProviders>
+        <DevTools />
         <App />
       </AppProviders>
       {/* 下面的Index是用来学习React Context的 */}
