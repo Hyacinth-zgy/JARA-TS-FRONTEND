@@ -7,7 +7,6 @@ import {useHttp} from '../../utils/request';
 import {Typography} from 'antd';
 import {useAsync} from '../../utils/useAsync';
 import {Project} from '../../utils/interface';
-import {log} from 'console';
 export const ProjectListScreen = () => {
   const [param, setParam] = useState({
     name: '',
@@ -67,7 +66,6 @@ export const ProjectListScreen = () => {
     client('users').then(setUsers);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  console.log(isLoading);
   return (
     <Container>
       <h1>项目列表</h1>
