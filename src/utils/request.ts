@@ -1,7 +1,6 @@
 import * as auth from '../auth-provider';
 import qs from 'qs';
 import {useAuth} from '../context/auth-context';
-import {type} from 'os';
 const apiURL = process.env.REACT_APP_API_URL;
 
 interface Config extends RequestInit {
