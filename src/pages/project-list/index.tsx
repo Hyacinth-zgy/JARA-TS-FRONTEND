@@ -7,6 +7,7 @@ import {useHttp} from '../../utils/request';
 import {Typography} from 'antd';
 import {useAsync} from '../../utils/useAsync';
 import {Project} from '../../utils/interface';
+import {useProjects} from '../../utils/project';
 export const ProjectListScreen = () => {
   const [param, setParam] = useState({
     name: '',
@@ -21,41 +22,42 @@ export const ProjectListScreen = () => {
   // 异常处理
   // const [error, setError] = useState<null | Error>(null);
   const client = useHttp();
-  const {run, isLoading, error, data: list} = useAsync<Project[]>();
+  // const {run, isLoading, error, data: list} = useAsync<Project[]>();
+  const {isLoading, error, data: list} = useProjects(debounceParam);
   // 搜索参数变化调用接口获取数据projects
-  useEffect(() => {
-    // let URL = `${apiURL}/projects?name=${debounceParam.name}&personId=${debounceParam.personId}`;
-    // if (debounceParam.name === '' && debounceParam.personId !== '') {
-    //   URL = `${apiURL}/projects?personId=${debounceParam.personId}`;
-    // }
-    // if (debounceParam.name !== '' && debounceParam.personId === '') {
-    //   URL = `${apiURL}/projects?name=${debounceParam.name}`;
-    // }
-    // if (debounceParam.name === '' && debounceParam.personId === '') {
-    //   URL = `${apiURL}/projects`;
-    // }
-    // setIsLoading(true);
-    // client('projects', {data: cleanObject(debounceParam)})
-    //   .then(setList)
-    //   .catch((error) => {
-    //     setError(error);
-    //     setList([]);
-    //   })
-    //   .finally(() => {
-    //     setIsLoading(false);
-    //   });
+  // useEffect(() => {
+  //   // let URL = `${apiURL}/projects?name=${debounceParam.name}&personId=${debounceParam.personId}`;
+  //   // if (debounceParam.name === '' && debounceParam.personId !== '') {
+  //   //   URL = `${apiURL}/projects?personId=${debounceParam.personId}`;
+  //   // }
+  //   // if (debounceParam.name !== '' && debounceParam.personId === '') {
+  //   //   URL = `${apiURL}/projects?name=${debounceParam.name}`;
+  //   // }
+  //   // if (debounceParam.name === '' && debounceParam.personId === '') {
+  //   //   URL = `${apiURL}/projects`;
+  //   // }
+  //   // setIsLoading(true);
+  //   // client('projects', {data: cleanObject(debounceParam)})
+  //   //   .then(setList)
+  //   //   .catch((error) => {
+  //   //     setError(error);
+  //   //     setList([]);
+  //   //   })
+  //   //   .finally(() => {
+  //   //     setIsLoading(false);
+  //   //   });
 
-    // fetch(URL).then(async (response) => {
-    //   if (response.ok) {
-    //     console.log(response);
-    //     setList(await response.json());
-    //   }
-    // });
+  //   // fetch(URL).then(async (response) => {
+  //   //   if (response.ok) {
+  //   //     console.log(response);
+  //   //     setList(await response.json());
+  //   //   }
+  //   // });
 
-    run(client('projects', {data: cleanObject(debounceParam)}));
+  //   run(client('projects', {data: cleanObject(debounceParam)}));
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debounceParam]);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [debounceParam]);
   // 调用接口获取USER
   useEffect(() => {
     // fetch(`${apiURL}/users`).then(async (response) => {
