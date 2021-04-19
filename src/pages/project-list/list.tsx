@@ -1,6 +1,6 @@
 import React from 'react';
 import {User} from './search-pannel';
-import {Table} from 'antd';
+import {Table, TableProps} from 'antd';
 import dayjs from 'dayjs';
 interface Project {
   id: string;
@@ -10,11 +10,21 @@ interface Project {
   organization: string;
   created: number;
 }
-interface listProps {
-  list: Project[];
+
+// 原来
+// interface listProps {
+//   list: Project[];
+//   users: User[];
+// }
+
+// 改造:listProps
+interface listProps extends TableProps<Project> {
   users: User[];
 }
-export const List = ({list, users}: listProps) => {
+// 原来
+// export const List = ({list, users}: listProps) => {
+// 改造
+export const List = ({users, ...props}: listProps) => {
   return (
     <Table
       pagination={false}
@@ -54,7 +64,10 @@ export const List = ({list, users}: listProps) => {
           },
         },
       ]}
-      dataSource={list}
+      // 原来
+      // dataSource={list}
+      // 改造
+      {...props}
     ></Table>
   );
   // 原生写法

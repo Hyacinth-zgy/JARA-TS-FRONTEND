@@ -13,6 +13,7 @@ export const ProjectListScreen = () => {
   const debounceParam = useDebounce(param, 2000);
   const [list, setList] = useState([]);
   const [users, setUsers] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const client = useHttp();
 
   // 搜索参数变化调用接口获取数据projects
@@ -27,7 +28,12 @@ export const ProjectListScreen = () => {
     // if (debounceParam.name === '' && debounceParam.personId === '') {
     //   URL = `${apiURL}/projects`;
     // }
-    client('projects', {data: cleanObject(debounceParam)}).then(setList);
+    setIsLoading(true);
+    client('projects', {data: cleanObject(debounceParam)})
+      .then(setList)
+      .finally(() => {
+        setIsLoading(false);
+      });
     // fetch(URL).then(async (response) => {
     //   if (response.ok) {
     //     console.log(response);
@@ -55,7 +61,11 @@ export const ProjectListScreen = () => {
         setParam={setParam}
         users={users}
       ></SearchPannel>
-      <List list={list} users={users}></List>
+      <List
+        loading={isLoading}
+        users={users || []}
+        dataSource={list || []}
+      ></List>
     </Container>
   );
 };
