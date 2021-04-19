@@ -5,6 +5,9 @@ import {useDebounce, cleanObject} from '../../utils/helper';
 import styled from '@emotion/styled';
 import {useHttp} from '../../utils/request';
 import {Typography} from 'antd';
+import {useAsync} from '../../utils/useAsync';
+import {Project} from '../../utils/interface';
+import {log} from 'console';
 export const ProjectListScreen = () => {
   const [param, setParam] = useState({
     name: '',
@@ -12,14 +15,14 @@ export const ProjectListScreen = () => {
   });
   // 因为使用可泛型，所以debounceParam类型与param类型一致
   const debounceParam = useDebounce(param, 2000);
-  const [list, setList] = useState([]);
+  // const [list, setList] = useState([]);
   const [users, setUsers] = useState([]);
   // 加载状态
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   // 异常处理
-  const [error, setError] = useState<null | Error>(null);
+  // const [error, setError] = useState<null | Error>(null);
   const client = useHttp();
-
+  const {run, isLoading, error, data: list} = useAsync<Project[]>();
   // 搜索参数变化调用接口获取数据projects
   useEffect(() => {
     // let URL = `${apiURL}/projects?name=${debounceParam.name}&personId=${debounceParam.personId}`;
@@ -32,22 +35,26 @@ export const ProjectListScreen = () => {
     // if (debounceParam.name === '' && debounceParam.personId === '') {
     //   URL = `${apiURL}/projects`;
     // }
-    setIsLoading(true);
-    client('projects', {data: cleanObject(debounceParam)})
-      .then(setList)
-      .catch((error) => {
-        setError(error);
-        setList([]);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    // setIsLoading(true);
+    // client('projects', {data: cleanObject(debounceParam)})
+    //   .then(setList)
+    //   .catch((error) => {
+    //     setError(error);
+    //     setList([]);
+    //   })
+    //   .finally(() => {
+    //     setIsLoading(false);
+    //   });
+
     // fetch(URL).then(async (response) => {
     //   if (response.ok) {
     //     console.log(response);
     //     setList(await response.json());
     //   }
     // });
+
+    run(client('projects', {data: cleanObject(debounceParam)}));
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debounceParam]);
   // 调用接口获取USER
@@ -60,7 +67,7 @@ export const ProjectListScreen = () => {
     client('users').then(setUsers);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
+  console.log(isLoading);
   return (
     <Container>
       <h1>项目列表</h1>

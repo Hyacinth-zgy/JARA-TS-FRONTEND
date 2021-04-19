@@ -10,6 +10,8 @@ const defaultInitialState: State<null> = {
   data: null,
   error: null,
 };
+
+// 用来处理异步函数请求的Async
 export const useAsync = <D>(initialState?: State<D>) => {
   const [state, setState] = useState<State<D>>({
     ...defaultInitialState,
@@ -35,6 +37,7 @@ export const useAsync = <D>(initialState?: State<D>) => {
     if (!promise || !promise.then) {
       throw new Error('请传入一个Promise的数据');
     }
+    setState({...state, stat: 'loading'});
     return promise
       .then((data) => {
         setData(data);
@@ -54,5 +57,6 @@ export const useAsync = <D>(initialState?: State<D>) => {
     run,
     setData,
     setError,
+    ...state,
   };
 };
