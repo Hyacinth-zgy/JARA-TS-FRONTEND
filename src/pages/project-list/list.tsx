@@ -17,7 +17,7 @@ interface Project {
 //   users: User[];
 // }
 
-// 改造:listProps
+// 改造:listProps  使得listProps上会有table上的所有属性
 interface listProps extends TableProps<Project> {
   users: User[];
 }

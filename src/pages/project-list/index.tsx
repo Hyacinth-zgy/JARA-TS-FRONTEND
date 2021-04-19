@@ -4,6 +4,7 @@ import {List} from './list';
 import {useDebounce, cleanObject} from '../../utils/helper';
 import styled from '@emotion/styled';
 import {useHttp} from '../../utils/request';
+import {Typography} from 'antd';
 export const ProjectListScreen = () => {
   const [param, setParam] = useState({
     name: '',
@@ -13,7 +14,10 @@ export const ProjectListScreen = () => {
   const debounceParam = useDebounce(param, 2000);
   const [list, setList] = useState([]);
   const [users, setUsers] = useState([]);
+  // 加载状态
   const [isLoading, setIsLoading] = useState(false);
+  // 异常处理
+  const [error, setError] = useState<null | Error>(null);
   const client = useHttp();
 
   // 搜索参数变化调用接口获取数据projects
@@ -31,6 +35,10 @@ export const ProjectListScreen = () => {
     setIsLoading(true);
     client('projects', {data: cleanObject(debounceParam)})
       .then(setList)
+      .catch((error) => {
+        setError(error);
+        setList([]);
+      })
       .finally(() => {
         setIsLoading(false);
       });
@@ -61,6 +69,9 @@ export const ProjectListScreen = () => {
         setParam={setParam}
         users={users}
       ></SearchPannel>
+      {error ? (
+        <Typography.Text type={'danger'}>{error.message}</Typography.Text>
+      ) : null}
       <List
         loading={isLoading}
         users={users || []}
