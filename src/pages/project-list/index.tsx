@@ -8,6 +8,7 @@ import {Typography} from 'antd';
 import {useAsync} from '../../utils/useAsync';
 import {Project} from '../../utils/interface';
 import {useProjects} from '../../utils/project';
+import {useUsers} from '../../utils/user';
 export const ProjectListScreen = () => {
   const [param, setParam] = useState({
     name: '',
@@ -16,12 +17,12 @@ export const ProjectListScreen = () => {
   // 因为使用可泛型，所以debounceParam类型与param类型一致
   const debounceParam = useDebounce(param, 2000);
   // const [list, setList] = useState([]);
-  const [users, setUsers] = useState([]);
+  // const [users, setUsers] = useState([]);
   // 加载状态
   // const [isLoading, setIsLoading] = useState(false);
   // 异常处理
   // const [error, setError] = useState<null | Error>(null);
-  const client = useHttp();
+  // const client = useHttp();
   // const {run, isLoading, error, data: list} = useAsync<Project[]>();
   const {isLoading, error, data: list} = useProjects(debounceParam);
   // 搜索参数变化调用接口获取数据projects
@@ -59,22 +60,24 @@ export const ProjectListScreen = () => {
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [debounceParam]);
   // 调用接口获取USER
-  useEffect(() => {
-    // fetch(`${apiURL}/users`).then(async (response) => {
-    //   if (response.ok) {
-    //     setUsers(await response.json());
-    //   }
-    // });
-    client('users').then(setUsers);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // useEffect(() => {
+  //   // fetch(`${apiURL}/users`).then(async (response) => {
+  //   //   if (response.ok) {
+  //   //     setUsers(await response.json());
+  //   //   }
+  //   // });
+  //   client('users').then(setUsers);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
+
+  const {data: users} = useUsers();
   return (
     <Container>
       <h1>项目列表</h1>
       <SearchPannel
         param={param}
         setParam={setParam}
-        users={users}
+        users={users || []}
       ></SearchPannel>
       {error ? (
         <Typography.Text type={'danger'}>{error.message}</Typography.Text>
