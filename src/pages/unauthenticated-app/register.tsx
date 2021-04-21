@@ -2,8 +2,13 @@ import {useAuth} from '../../context/auth-context';
 import React from 'react';
 import {Form, Input, Button} from 'antd';
 import styled from '@emotion/styled';
-export const RegisterScreen = () => {
+import {useAsync} from '../../utils/useAsync';
+interface onErrorFace {
+  (error: Error | null): void;
+}
+export const RegisterScreen = ({onError}: {onError: onErrorFace}) => {
   const {register} = useAuth();
+  const {run, isLoading} = useAsync(undefined, {throwOnError: true});
   // 原生button写的
   // let handlSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
   // handlSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -16,10 +21,24 @@ export const RegisterScreen = () => {
   //   register({username, password});
   // };
 
-  let handlSubmit: (value: {username: string; password: string}) => void;
-  handlSubmit = (value) => {
-    console.log(value);
-    register(value);
+  let handlSubmit: ({
+    cpassWord,
+    ...value
+  }: {
+    username: string;
+    password: string;
+    cpassWord: string;
+  }) => void;
+  handlSubmit = async ({cpassWord, ...value}) => {
+    if (cpassWord !== value.password) {
+      onError(new Error('密码输入不一致'));
+      return;
+    }
+    try {
+      await run(register(value));
+    } catch (e) {
+      onError(e);
+    }
   };
   return (
     <Form onFinish={handlSubmit}>
@@ -42,7 +61,7 @@ export const RegisterScreen = () => {
         <Input placeholder={'确认密码'} type="password" id={'cpassword'} />
       </Form.Item>
       <Form.Item>
-        <LongButton htmlType={'submit'} type={'primary'}>
+        <LongButton loading={isLoading} htmlType={'submit'} type={'primary'}>
           注册
         </LongButton>
       </Form.Item>

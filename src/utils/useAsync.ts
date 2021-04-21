@@ -11,8 +11,16 @@ const defaultInitialState: State<null> = {
   error: null,
 };
 
+const defaultConfig = {
+  throwOnError: false,
+};
+
 // 用来处理异步函数请求的Async
-export const useAsync = <D>(initialState?: State<D>) => {
+export const useAsync = <D>(
+  initialState?: State<D>,
+  initialConfig?: typeof defaultConfig
+) => {
+  const config = {...defaultConfig, initialConfig};
   const [state, setState] = useState<State<D>>({
     ...defaultInitialState,
     ...initialState,
@@ -44,7 +52,11 @@ export const useAsync = <D>(initialState?: State<D>) => {
         return data;
       })
       .catch((err) => {
+        // catch会消化异常，如果不主动抛出异常
         setError(err);
+        if (config.throwOnError) {
+          return Promise.reject(err);
+        }
         return err;
       });
   };

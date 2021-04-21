@@ -1,13 +1,14 @@
 import React, {useState} from 'react';
 import {RegisterScreen} from './register';
 import {LoginScreen} from './login';
-import {Card, Divider} from 'antd';
+import {Card, Divider, Typography} from 'antd';
 // 引入CSS-IN-JS emotion
 import styled from '@emotion/styled';
 import logo from '../../assets/images/logo.png';
 import loginBG from '../../assets/images/login-bg.jpg';
 export const UnauthenticatedApp = () => {
   const [isRegister, setIsRegister] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
   return (
     // 使用样式组件
     <Container>
@@ -16,7 +17,15 @@ export const UnauthenticatedApp = () => {
       {/* 替换Card组件 */}
       <ShadowCard>
         <Title>{isRegister ? '请注册' : '请登录'}</Title>
-        {isRegister ? <RegisterScreen /> : <LoginScreen />}
+        {error ? (
+          <Typography.Text type={'danger'}>{error.message}</Typography.Text>
+        ) : null}
+        {isRegister ? (
+          // 父元素传一个改变值得函数过
+          <RegisterScreen onError={setError} />
+        ) : (
+          <LoginScreen onError={setError} />
+        )}
         <Divider></Divider>
         <a
           href="javascrit:void"

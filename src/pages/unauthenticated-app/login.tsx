@@ -2,8 +2,13 @@ import React from 'react';
 import {useAuth} from '../../context/auth-context';
 import {Form, Input, Button} from 'antd';
 import styled from '@emotion/styled';
-export const LoginScreen = () => {
+import {useAsync} from '../../utils/useAsync';
+interface onErrorFace {
+  (error: Error | null): void;
+}
+export const LoginScreen = ({onError}: {onError: onErrorFace}) => {
   const {login, user} = useAuth();
+  const {run, isLoading} = useAsync(undefined, {throwOnError: true});
   // 使用原生时的值获取和提交
   // let handlSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
   // handlSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -18,8 +23,13 @@ export const LoginScreen = () => {
   // };
   // 使用ant-d的handlSubmit
   let handlSubmit: (value: {username: string; password: string}) => void;
-  handlSubmit = (value) => {
-    login(value);
+  handlSubmit = async (value) => {
+    try {
+      // await login(value)
+      await run(login(value)); // 使用useAsync 改造
+    } catch (e) {
+      onError(e);
+    }
   };
   return (
     <Form onFinish={handlSubmit}>
@@ -36,7 +46,7 @@ export const LoginScreen = () => {
         <Input placeholder={'密码'} type="password" id={'password'} />
       </Form.Item>
       <Form.Item>
-        <LongButton htmlType={'submit'} type={'primary'}>
+        <LongButton loading={isLoading} htmlType={'submit'} type={'primary'}>
           登录
         </LongButton>
       </Form.Item>

@@ -25,7 +25,7 @@ login = (data: loginParam) => {
     if (response.ok) {
       return handleUserResponse(await response.json());
     } else {
-      return Promise.reject(data);
+      return Promise.reject(await response.json());
     }
   });
 };
@@ -42,7 +42,7 @@ export const register = (data: loginParam): Promise<User | never> => {
     if (response.ok) {
       return handleUserResponse(await response.json());
     } else {
-      return Promise.reject(data);
+      return Promise.reject(await response.json());
     }
   });
 };
