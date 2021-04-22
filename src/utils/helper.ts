@@ -1,4 +1,5 @@
 import {useState, useEffect} from 'react';
+import {doc} from 'prettier';
 export const isVoid = (value: unknown) =>
   value === undefined || value === null || value === '';
 
@@ -68,4 +69,10 @@ export const useMount = (callback: () => void) => {
     // TODO 依赖项里加上callback会造成无限循环，这个和usecallback以及useMemo有关系
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+};
+
+export const useDocumentTitle = (title: string) => {
+  useEffect(() => {
+    document.title = title;
+  }, [title]);
 };

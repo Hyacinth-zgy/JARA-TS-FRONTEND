@@ -6,13 +6,15 @@ import {Row} from './components/libs';
 import Logo from '../src/assets/images/logon.png';
 import {Dropdown, Menu, Button} from 'antd';
 import {Helmet} from 'react-helmet';
+import {useDocumentTitle} from './utils/helper';
 export const AuthenticatedApp = () => {
   const {logout, user} = useAuth();
+  useDocumentTitle('项目列表');
   return (
     <Container>
-      <Helmet>
+      {/* <Helmet>
         <title>项目列表</title>
-      </Helmet>
+      </Helmet> */}
       <Header between={true}>
         <HeaderLeft gap={true}>
           <LogoCom />

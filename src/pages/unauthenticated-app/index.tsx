@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {RegisterScreen} from './register';
 import {LoginScreen} from './login';
 import {Card, Divider, Typography} from 'antd';
@@ -6,17 +6,27 @@ import {Card, Divider, Typography} from 'antd';
 import styled from '@emotion/styled';
 import logo from '../../assets/images/logo.png';
 import loginBG from '../../assets/images/login-bg.jpg';
+import {useDocumentTitle} from '../../utils/helper';
 //Helme用来改变网页标题
 import {Helmet} from 'react-helmet';
 export const UnauthenticatedApp = () => {
   const [isRegister, setIsRegister] = useState(false);
   const [error, setError] = useState<Error | null>(null);
+  useDocumentTitle('登录注册');
+  // 测试useEffect的能力
+  // HOOK使用了JS的闭包能力
+  // useEffect(() => {
+  //   console.log('111111111111111111111111111111');
+  //   return () => {
+  //     console.log(2);
+  //   };
+  // });
   return (
     // 使用样式组件
     <Container>
-      <Helmet>
+      {/* <Helmet>
         <title>{isRegister ? '请注册' : '请登录'}</title>
-      </Helmet>
+      </Helmet> */}
       <Header />
       {/* <Card> */}
       {/* 替换Card组件 */}
