@@ -71,7 +71,10 @@ export const useMount = (callback: () => void) => {
   }, []);
 };
 
-export const useDocumentTitle = (title: string) => {
+export const useDocumentTitle = (
+  title: string,
+  keepOnUnmount: boolean = true
+) => {
   useEffect(() => {
     document.title = title;
   }, [title]);
