@@ -5,10 +5,14 @@ import styled from '@emotion/styled';
 import {Row} from './components/libs';
 import Logo from '../src/assets/images/logon.png';
 import {Dropdown, Menu, Button} from 'antd';
+import {Helmet} from 'react-helmet';
 export const AuthenticatedApp = () => {
   const {logout, user} = useAuth();
   return (
     <Container>
+      <Helmet>
+        <title>项目列表</title>
+      </Helmet>
       <Header between={true}>
         <HeaderLeft gap={true}>
           <LogoCom />

@@ -6,12 +6,17 @@ import {Card, Divider, Typography} from 'antd';
 import styled from '@emotion/styled';
 import logo from '../../assets/images/logo.png';
 import loginBG from '../../assets/images/login-bg.jpg';
+//Helme用来改变网页标题
+import {Helmet} from 'react-helmet';
 export const UnauthenticatedApp = () => {
   const [isRegister, setIsRegister] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   return (
     // 使用样式组件
     <Container>
+      <Helmet>
+        <title>{isRegister ? '请注册' : '请登录'}</title>
+      </Helmet>
       <Header />
       {/* <Card> */}
       {/* 替换Card组件 */}
