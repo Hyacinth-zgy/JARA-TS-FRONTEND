@@ -9,7 +9,7 @@ import {Helmet} from 'react-helmet';
 import {useDocumentTitle} from './utils/helper';
 export const AuthenticatedApp = () => {
   const {logout, user} = useAuth();
-  useDocumentTitle('项目列表');
+  useDocumentTitle('项目列表', true);
   return (
     <Container>
       {/* <Helmet>

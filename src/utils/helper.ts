@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useRef} from 'react';
 import {doc} from 'prettier';
 export const isVoid = (value: unknown) =>
   value === undefined || value === null || value === '';
@@ -71,11 +71,36 @@ export const useMount = (callback: () => void) => {
   }, []);
 };
 
+// export const useDocumentTitle = (
+//   title: string,
+//   keepOnUnmount: boolean = true
+// ) => {
+//   const oldTitle = document.title;
+//   useEffect(() => {
+//     document.title = title;
+//     return ()=>{
+//       if(!keepOnUnmount){
+//         document.title = oldTitle
+//       }
+//     }
+//   }, [title]);
+
+// };
+
 export const useDocumentTitle = (
   title: string,
   keepOnUnmount: boolean = true
 ) => {
+  // useRef 能保留初始值
+  const oldTitle = useRef(document.title).current;
   useEffect(() => {
     document.title = title;
   }, [title]);
+  useEffect(() => {
+    return () => {
+      if (!keepOnUnmount) {
+        document.title = oldTitle;
+      }
+    };
+  }, [keepOnUnmount, oldTitle]);
 };
