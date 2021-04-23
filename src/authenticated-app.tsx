@@ -5,17 +5,19 @@ import styled from '@emotion/styled';
 import {Row} from './components/libs';
 import Logo from '../src/assets/images/logon.png';
 import {Dropdown, Menu, Button} from 'antd';
-import {Helmet} from 'react-helmet';
+// import {Helmet} from 'react-helmet';
 import {useDocumentTitle} from './utils/helper';
 export const AuthenticatedApp = () => {
-  const {logout, user} = useAuth();
+  // const {logout, user} = useAuth();
   useDocumentTitle('项目列表', true);
   return (
     <Container>
       {/* <Helmet>
         <title>项目列表</title>
       </Helmet> */}
-      <Header between={true}>
+
+      {/* 被抽取了: */}
+      {/* <Header between={true}>
         <HeaderLeft gap={true}>
           <LogoCom />
           <div>项目</div>
@@ -38,7 +40,8 @@ export const AuthenticatedApp = () => {
             </Button>
           </Dropdown>
         </HeaderRight>
-      </Header>
+      </Header> */}
+      <PageHeader />
       {/* <Nav>nav</Nav> */}
       <Main>
         <ProjectListScreen />
@@ -46,6 +49,36 @@ export const AuthenticatedApp = () => {
       {/* <Aside>asisde</Aside> */}
       <Footer>Footer</Footer>
     </Container>
+  );
+};
+
+const PageHeader = () => {
+  const {logout, user} = useAuth();
+  return (
+    <Header between={true}>
+      <HeaderLeft gap={true}>
+        <LogoCom />
+        <div>项目</div>
+        <div>用户</div>
+      </HeaderLeft>
+      <HeaderRight>
+        <Dropdown
+          overlay={
+            <Menu>
+              <Menu.Item key={'logout'}>
+                <Button onClick={logout} type={'link'}>
+                  登出
+                </Button>
+              </Menu.Item>
+            </Menu>
+          }
+        >
+          <Button type={'link'} onClick={(e) => e.preventDefault()}>
+            Hi, {user?.name}
+          </Button>
+        </Dropdown>
+      </HeaderRight>
+    </Header>
   );
 };
 
