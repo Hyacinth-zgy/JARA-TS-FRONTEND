@@ -1,5 +1,4 @@
 import {useState, useEffect, useRef} from 'react';
-import {doc} from 'prettier';
 export const isVoid = (value: unknown) =>
   value === undefined || value === null || value === '';
 

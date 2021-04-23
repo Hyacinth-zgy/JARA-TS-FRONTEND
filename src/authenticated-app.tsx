@@ -5,8 +5,11 @@ import styled from '@emotion/styled';
 import {Row} from './components/libs';
 import Logo from '../src/assets/images/logon.png';
 import {Dropdown, Menu, Button} from 'antd';
+import {Routes, Route, Navigate} from 'react-router';
+import {BrowserRouter as Router} from 'react-router-dom';
 // import {Helmet} from 'react-helmet';
 import {useDocumentTitle} from './utils/helper';
+import {ProjectScreen} from './pages/project';
 export const AuthenticatedApp = () => {
   // const {logout, user} = useAuth();
   useDocumentTitle('项目列表', true);
@@ -16,7 +19,7 @@ export const AuthenticatedApp = () => {
         <title>项目列表</title>
       </Helmet> */}
 
-      {/* 被抽取了: */}
+      {/* 被抽取了为PageHeader: */}
       {/* <Header between={true}>
         <HeaderLeft gap={true}>
           <LogoCom />
@@ -45,6 +48,15 @@ export const AuthenticatedApp = () => {
       {/* <Nav>nav</Nav> */}
       <Main>
         <ProjectListScreen />
+        <Router>
+          <Routes>
+            <Route path={'/projects'} element={<ProjectListScreen />}></Route>
+            <Route
+              path={'/projects/:projectId/*'}
+              element={<ProjectScreen />}
+            ></Route>
+          </Routes>
+        </Router>
       </Main>
       {/* <Aside>asisde</Aside> */}
       <Footer>Footer</Footer>
