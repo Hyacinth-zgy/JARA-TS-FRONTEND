@@ -47,7 +47,7 @@ export const AuthenticatedApp = () => {
       <PageHeader />
       {/* <Nav>nav</Nav> */}
       <Main>
-        <ProjectListScreen />
+        {/* Routes需要被router包裹住 */}
         <Router>
           <Routes>
             <Route path={'/projects'} element={<ProjectListScreen />}></Route>
