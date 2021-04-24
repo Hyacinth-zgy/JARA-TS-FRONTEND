@@ -8,8 +8,9 @@ import {Dropdown, Menu, Button} from 'antd';
 import {Routes, Route, Navigate} from 'react-router';
 import {BrowserRouter as Router} from 'react-router-dom';
 // import {Helmet} from 'react-helmet';
-import {useDocumentTitle} from './utils/helper';
+import {useDocumentTitle, resetRoute} from './utils/helper';
 import {ProjectScreen} from './pages/project';
+import {cursorTo} from 'readline';
 export const AuthenticatedApp = () => {
   // const {logout, user} = useAuth();
   useDocumentTitle('项目列表', true);
@@ -55,6 +56,8 @@ export const AuthenticatedApp = () => {
               path={'/projects/:projectId/*'}
               element={<ProjectScreen />}
             ></Route>
+            {/* 当前组件路由没有匹配到就进入如下路由 */}
+            <Navigate to={window.location.pathname + '/projects'}></Navigate>
           </Routes>
         </Router>
       </Main>
@@ -69,7 +72,7 @@ const PageHeader = () => {
   return (
     <Header between={true}>
       <HeaderLeft gap={true}>
-        <LogoCom />
+        <LogoCom onClick={resetRoute} />
         <div>项目</div>
         <div>用户</div>
       </HeaderLeft>
