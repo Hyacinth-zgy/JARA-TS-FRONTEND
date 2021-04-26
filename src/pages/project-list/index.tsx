@@ -9,11 +9,14 @@ import {useAsync} from '../../utils/useAsync';
 import {Project} from '../../utils/interface';
 import {useProjects} from '../../utils/project';
 import {useUsers} from '../../utils/user';
+import {useUrlQueryParam} from '../../utils/url';
 export const ProjectListScreen = () => {
   const [param, setParam] = useState({
     name: '',
     personId: '',
   });
+  const params = useUrlQueryParam(['name', 'personId']);
+  console.log(params);
   // 因为使用可泛型，所以debounceParam类型与param类型一致
   const debounceParam = useDebounce(param, 2000);
   // const [list, setList] = useState([]);

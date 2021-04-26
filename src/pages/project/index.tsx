@@ -6,8 +6,8 @@ import {EpicScreen} from '../epic';
 export const ProjectScreen = () => {
   return (
     <div>
-      <h1>我是ProjectScreen</h1>;
-      {/* Link的to会建立在父路由的基础上   to后面不能写 / ，link的to的路由代跟路由 */}
+      <h1>我是ProjectScreen</h1>
+      {/* Link的to会建立在父路由的基础上   to后面不能写 / ，link的 /  代表根路由 */}
       <Link to={'kanban'}>看板</Link>
       <Link to={'epic'}>任务组</Link>
       <Routes>
