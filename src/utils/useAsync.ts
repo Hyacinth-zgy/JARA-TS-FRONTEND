@@ -21,7 +21,6 @@ export const useAsync = <D>(
   initialConfig?: typeof defaultConfig
 ) => {
   const config = {...defaultConfig, ...initialConfig};
-  console.log(initialConfig);
   const [state, setState] = useState<State<D>>({
     ...defaultInitialState,
     ...initialState,
