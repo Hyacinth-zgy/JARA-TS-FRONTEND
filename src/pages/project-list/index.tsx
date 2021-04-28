@@ -11,11 +11,11 @@ import {useProjects} from '../../utils/project';
 import {useUsers} from '../../utils/user';
 import {useUrlQueryParam} from '../../utils/url';
 export const ProjectListScreen = () => {
-  const [, setParam] = useState({
-    name: '',
-    personId: '',
-  });
-  const [param] = useUrlQueryParam(['name', 'personId']);
+  // const [, setParam] = useState({
+  //   name: '',
+  //   personId: '',
+  // });
+  const [param, setSearchParams] = useUrlQueryParam(['name', 'personId']);
   // 因为使用可泛型，所以debounceParam类型与param类型一致
   const debounceParam = useDebounce(param, 2000);
   // const [list, setList] = useState([]);
@@ -78,7 +78,7 @@ export const ProjectListScreen = () => {
       <h1>项目列表</h1>
       <SearchPannel
         param={param}
-        setParam={setParam}
+        setParam={setSearchParams}
         users={users || []}
       ></SearchPannel>
       {error ? (

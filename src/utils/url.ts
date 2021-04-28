@@ -1,6 +1,7 @@
 // 返回页面URL中指定键的参数值
-import {useSearchParams} from 'react-router-dom';
+import {useSearchParams, URLSearchParamsInit} from 'react-router-dom';
 import {useMemo} from 'react';
+import {cleanObject} from './helper';
 
 // 该hook是读取URL中的参数返回一个对应对象数据出去的能力HOOK
 // export const useUrlQueryParam = (keys: string[]) => {
@@ -49,8 +50,17 @@ export const useUrlQueryParam = <K extends string>(keys: K[]) => {
           };
         }, {} as {[k in K]: string}),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [setSearchParams]
+      [searchParams]
     ),
-    setSearchParams,
+    (params: Partial<{[key in K]: unknown}>) => {
+      // 类型断言 建议使用  const o = cleanObject({ ...Object.fromEntries(searchParams), ...params }) as URLSearchParamsInit
+      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+      const o = <URLSearchParamsInit>(
+        cleanObject({...Object.fromEntries(searchParams), ...params})
+      );
+      setSearchParams(o);
+    },
   ] as const;
 };
+
+// setSearchParams
