@@ -3,6 +3,7 @@ import {useEffect} from 'react';
 import {cleanObject} from './helper';
 import {useHttp} from './request';
 import {useAsync} from './useAsync';
+import {AsyncResource} from 'async_hooks';
 
 export const useProjects = (param?: Partial<Project>) => {
   const client = useHttp();
@@ -11,4 +12,38 @@ export const useProjects = (param?: Partial<Project>) => {
     run(client('projects', {data: cleanObject(param || {})}));
   }, [param]);
   return result;
+};
+
+export const useEditProject = () => {
+  const {run, ...asyncResult} = useAsync();
+  const client = useHttp();
+  const mutate = (params: Partial<Project>) => {
+    return run(
+      client(`projects/${params.id}`, {
+        method: 'PATCH',
+        data: params,
+      })
+    );
+  };
+  return {
+    mutate,
+    ...asyncResult,
+  };
+};
+
+export const useAddProject = () => {
+  const {run, ...asyncResult} = useAsync();
+  const client = useHttp();
+  const mutate = (params: Partial<Project>) => {
+    return run(
+      client(`projects/${params.id}`, {
+        method: 'POST',
+        data: params,
+      })
+    );
+  };
+  return {
+    mutate,
+    ...asyncResult,
+  };
 };
