@@ -3,6 +3,7 @@
 import React from 'react';
 import {Input, Select, Form} from 'antd';
 import {Project} from '../../utils/interface';
+import {UserSelect} from '../../components/user-select';
 export interface User {
   id: number;
   name: string;
@@ -12,7 +13,7 @@ export interface User {
 }
 interface SearchPanelProps {
   users: User[];
-  // Utility Type Partial<Type> 就是从一个复合类型中，取出几个想要的类型的组合
+  // Utility Type Pick<Type> 就是从一个复合类型中，取出几个想要的类型的组合
   param: Partial<Pick<Project, 'name' | 'personId'>>;
   // param: {
   //   name: string;
@@ -42,7 +43,17 @@ export const SearchPannel = ({param, setParam, users}: SearchPanelProps) => {
         />
       </Form.Item>
       <Form.Item>
-        <Select
+        <UserSelect
+          defaultOptionName={'负责人'}
+          value={param.personId}
+          onChange={(value) =>
+            setParam({
+              ...param,
+              personId: value,
+            })
+          }
+        />
+        {/* <Select
           id=""
           value={param.personId}
           onChange={(value) => {
@@ -60,7 +71,7 @@ export const SearchPannel = ({param, setParam, users}: SearchPanelProps) => {
               </Select.Option>
             );
           })}
-        </Select>
+        </Select> */}
       </Form.Item>
     </Form>
   );
