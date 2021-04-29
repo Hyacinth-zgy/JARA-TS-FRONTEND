@@ -96,3 +96,5 @@ const shenMiRen: Omit<Person, 'name' | 'age'> = {};
 type Partial<T> = {
   [P in keyof T]?: T[P];
 };
+
+// 就是从一个复合类型中，取出几个想要的类型的组合  Utility Type Pick<Type>

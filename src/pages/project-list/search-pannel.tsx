@@ -2,8 +2,9 @@
 // import {jsx} from '@emotion/react'; // 支持css={{marginBottom: '2rem', '>*': ''}}
 import React from 'react';
 import {Input, Select, Form} from 'antd';
+import {Project} from '../../utils/interface';
 export interface User {
-  id: string;
+  id: number;
   name: string;
   email: string;
   title: string;
@@ -11,10 +12,12 @@ export interface User {
 }
 interface SearchPanelProps {
   users: User[];
-  param: {
-    name: string;
-    personId: string;
-  };
+  // Utility Type Partial<Type> 就是从一个复合类型中，取出几个想要的类型的组合
+  param: Partial<Pick<Project, 'name' | 'personId'>>;
+  // param: {
+  //   name: string;
+  //   personId: string;
+  // };
   setParam: (param: SearchPanelProps['param']) => void;
 }
 export const SearchPannel = ({param, setParam, users}: SearchPanelProps) => {
