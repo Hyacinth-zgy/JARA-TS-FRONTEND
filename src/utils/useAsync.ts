@@ -1,4 +1,5 @@
 import {useState} from 'react';
+import {Button} from 'antd';
 interface State<D> {
   error: Error | null;
   data: D | null;
@@ -26,6 +27,8 @@ export const useAsync = <D>(
     ...initialState,
   });
 
+  const [retry, serRetry] = useState(() => {});
+
   const setData = (data: D) =>
     setState({
       data,
@@ -45,6 +48,9 @@ export const useAsync = <D>(
     if (!promise || !promise.then) {
       throw new Error('请传入一个Promise的数据');
     }
+    serRetry(() => {
+      run(promise);
+    });
     setState({...state, stat: 'loading'});
     return promise
       .then((data) => {
@@ -60,7 +66,6 @@ export const useAsync = <D>(
         return err;
       });
   };
-
   return {
     isIdle: state.stat === 'idle',
     isLoading: state.stat === 'loading',
@@ -69,6 +74,8 @@ export const useAsync = <D>(
     run,
     setData,
     setError,
+    // 当retry被调用的时候更重新调用run方法，让state刷新一遍
+    retry,
     ...state,
   };
 };

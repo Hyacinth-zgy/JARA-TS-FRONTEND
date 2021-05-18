@@ -4,7 +4,7 @@ import {List} from './list';
 import {useDebounce, cleanObject} from '../../utils/helper';
 import styled from '@emotion/styled';
 import {useHttp} from '../../utils/request';
-import {Typography} from 'antd';
+import {Typography, Button} from 'antd';
 import {useAsync} from '../../utils/useAsync';
 import {Project} from '../../utils/interface';
 import {useProjects} from '../../utils/project';
@@ -34,7 +34,7 @@ export const ProjectListScreen = () => {
   // const [error, setError] = useState<null | Error>(null);
   // const client = useHttp();
   // const {run, isLoading, error, data: list} = useAsync<Project[]>();
-  const {isLoading, error, data: list} = useProjects(debounceParam);
+  const {isLoading, error, data: list, retry} = useProjects(debounceParam);
   // 搜索参数变化调用接口获取数据projects
   // useEffect(() => {
   //   // let URL = `${apiURL}/projects?name=${debounceParam.name}&personId=${debounceParam.personId}`;
@@ -84,6 +84,7 @@ export const ProjectListScreen = () => {
   return (
     <Container>
       <h1>项目列表</h1>
+      {/* <Button onClick={retry}>Retry</Button> */}
       <SearchPannel
         param={params}
         setParam={setSearchParams}
