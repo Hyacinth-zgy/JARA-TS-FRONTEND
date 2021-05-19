@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useState, useCallback} from 'react';
 import {Button} from 'antd';
 import {useMountedRef} from './helper';
 interface State<D> {
@@ -31,45 +31,80 @@ export const useAsync = <D>(
   // 具体useState返回函数看笔记
   const [retry, serRetry] = useState(() => () => {});
 
-  const setData = (data: D) =>
-    setState({
-      data,
-      stat: 'success',
-      error: null,
-    });
+  const setData = useCallback(
+    (data: D) =>
+      setState({
+        data,
+        stat: 'success',
+        error: null,
+      }),
+    []
+  );
 
-  const setError = (error: Error) =>
-    setState({
-      error,
-      stat: 'error',
-      data: null,
-    });
+  const setError = useCallback(
+    (error: Error) =>
+      setState({
+        error,
+        stat: 'error',
+        data: null,
+      }),
+    []
+  );
 
   // 用来触发异步请求
-  const run = (promise: Promise<D>, runConfig?: {retry: () => Promise<D>}) => {
-    if (!promise || !promise.then) {
-      throw new Error('请传入一个Promise的数据');
-    }
-    serRetry(() => () => {
-      if (runConfig?.retry) {
-        run(runConfig?.retry(), runConfig);
+  // 使用useCallback优化run
+  const run = useCallback(
+    (promise: Promise<D>, runConfig?: {retry: () => Promise<D>}) => {
+      if (!promise || !promise.then) {
+        throw new Error('请传入一个Promise的数据');
       }
-    });
-    setState({...state, stat: 'loading'});
-    return promise
-      .then((data) => {
-        if (mountedRef.current) setData(data);
-        return data;
-      })
-      .catch((err) => {
-        // catch会消化异常，如果不主动抛出异常
-        setError(err);
-        if (config.throwOnError) {
-          return Promise.reject(err);
+      serRetry(() => () => {
+        if (runConfig?.retry) {
+          run(runConfig?.retry(), runConfig);
         }
-        return err;
       });
-  };
+      setState((prevState) => ({...prevState, stat: 'loading'}));
+      return promise
+        .then((data) => {
+          if (mountedRef.current) setData(data);
+          return data;
+        })
+        .catch((err) => {
+          // catch会消化异常，如果不主动抛出异常
+          setError(err);
+          if (config.throwOnError) {
+            return Promise.reject(err);
+          }
+          return err;
+        });
+    },
+    [config.throwOnError, mountedRef, setData, setError]
+  );
+
+  // const run = (promise: Promise<D>, runConfig?: {retry: () => Promise<D>}) => {
+  //   if (!promise || !promise.then) {
+  //     throw new Error('请传入一个Promise的数据');
+  //   }
+  //   serRetry(() => () => {
+  //     if (runConfig?.retry) {
+  //       run(runConfig?.retry(), runConfig);
+  //     }
+  //   });
+  //   setState({...state, stat: 'loading'});
+  //   return promise
+  //     .then((data) => {
+  //       if (mountedRef.current) setData(data);
+  //       return data;
+  //     })
+  //     .catch((err) => {
+  //       // catch会消化异常，如果不主动抛出异常
+  //       setError(err);
+  //       if (config.throwOnError) {
+  //         return Promise.reject(err);
+  //       }
+  //       return err;
+  //     });
+  // };
   return {
     isIdle: state.stat === 'idle',
     isLoading: state.stat === 'loading',

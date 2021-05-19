@@ -1,6 +1,7 @@
 import * as auth from '../auth-provider';
 import qs from 'qs';
 import {useAuth} from '../context/auth-context';
+import {useCallback} from 'react';
 const apiURL = process.env.REACT_APP_API_URL;
 
 interface Config extends RequestInit {
@@ -47,9 +48,12 @@ export const useHttp = () => {
   // return ([endpoint, config]: [string, Config]) => {
   // 讲解TS操作符
   // Parameters:取出函数中的参数类型
-  return (...[endpoint, config]: Parameters<typeof http>) => {
-    return http(endpoint, {...config, token: user && user.token});
-  };
+  return useCallback(
+    (...[endpoint, config]: Parameters<typeof http>) => {
+      return http(endpoint, {...config, token: user && user.token});
+    },
+    [user?.token]
+  );
 };
 
 // 联合类型，有多个类型
