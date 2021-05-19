@@ -84,7 +84,7 @@ export const ProjectListScreen = () => {
   return (
     <Container>
       <h1>项目列表</h1>
-      {/* <Button onClick={retry}>Retry</Button> */}
+      <Button onClick={retry}>Retry</Button>
       <SearchPannel
         param={params}
         setParam={setSearchParams}
@@ -94,6 +94,7 @@ export const ProjectListScreen = () => {
         <Typography.Text type={'danger'}>{error.message}</Typography.Text>
       ) : null}
       <List
+        refresh={retry}
         loading={isLoading}
         users={users || []}
         dataSource={list || []}

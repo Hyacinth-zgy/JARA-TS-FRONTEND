@@ -23,13 +23,15 @@ interface Project {
 // 改造:listProps  使得listProps上会有table上的所有属性
 interface listProps extends TableProps<Project> {
   users: User[];
+  refresh?: () => void;
 }
 // 原来
 // export const List = ({list, users}: listProps) => {
 // 改造
 export const List = ({users, ...props}: listProps) => {
   const {mutate} = useEditProject();
-  const pinProject = (id: number) => (pin: boolean) => mutate({id, pin});
+  const pinProject = (id: number) => (pin: boolean) =>
+    mutate({id, pin}).then(props.refresh);
   return (
     <Table
       pagination={false}

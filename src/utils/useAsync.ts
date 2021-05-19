@@ -27,7 +27,8 @@ export const useAsync = <D>(
     ...initialState,
   });
 
-  const [retry, serRetry] = useState(() => {});
+  // 具体useState返回函数看笔记
+  const [retry, serRetry] = useState(() => () => {});
 
   const setData = (data: D) =>
     setState({
@@ -44,12 +45,14 @@ export const useAsync = <D>(
     });
 
   // 用来触发异步请求
-  const run = (promise: Promise<D>) => {
+  const run = (promise: Promise<D>, runConfig?: {retry: () => Promise<D>}) => {
     if (!promise || !promise.then) {
       throw new Error('请传入一个Promise的数据');
     }
-    serRetry(() => {
-      run(promise);
+    serRetry(() => () => {
+      if (runConfig?.retry) {
+        run(runConfig?.retry(), runConfig);
+      }
     });
     setState({...state, stat: 'loading'});
     return promise
