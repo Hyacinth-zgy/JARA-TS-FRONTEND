@@ -1,5 +1,6 @@
 import {useState} from 'react';
 import {Button} from 'antd';
+import {useMountedRef} from './helper';
 interface State<D> {
   error: Error | null;
   data: D | null;
@@ -26,7 +27,7 @@ export const useAsync = <D>(
     ...defaultInitialState,
     ...initialState,
   });
-
+  const mountedRef = useMountedRef();
   // 具体useState返回函数看笔记
   const [retry, serRetry] = useState(() => () => {});
 
@@ -57,7 +58,7 @@ export const useAsync = <D>(
     setState({...state, stat: 'loading'});
     return promise
       .then((data) => {
-        setData(data);
+        if (mountedRef.current) setData(data);
         return data;
       })
       .catch((err) => {

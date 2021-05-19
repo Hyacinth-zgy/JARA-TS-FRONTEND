@@ -106,3 +106,14 @@ export const useDocumentTitle = (
 
 // 点击重置路由
 export const resetRoute = () => (window.location.href = window.location.origin);
+
+export const useMountedRef = () => {
+  const montedRef = useRef(false);
+  useEffect(() => {
+    montedRef.current = true;
+    return () => {
+      montedRef.current = false;
+    };
+  });
+  return montedRef;
+};
