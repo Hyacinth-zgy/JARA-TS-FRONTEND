@@ -4,14 +4,16 @@ import {List} from './list';
 import {useDebounce, cleanObject} from '../../utils/helper';
 import styled from '@emotion/styled';
 import {useHttp} from '../../utils/request';
-import {Typography, Button} from 'antd';
+import {Typography, Button, Row} from 'antd';
 import {useAsync} from '../../utils/useAsync';
 import {Project} from '../../utils/interface';
 import {useProjects} from '../../utils/project';
 import {useUsers} from '../../utils/user';
 import {useUrlQueryParam} from '../../utils/url';
 import {useProjectsSearchParams} from './util';
-export const ProjectListScreen = () => {
+export const ProjectListScreen = (props: {
+  setProjectModalOpen: (isOpen: boolean) => void;
+}) => {
   // const [, setParam] = useState({
   //   name: '',
   //   personId: '',
@@ -83,7 +85,16 @@ export const ProjectListScreen = () => {
   const {data: users} = useUsers();
   return (
     <Container>
-      <h1>项目列表</h1>
+      <Row justify={'space-between'}>
+        <h1>项目列表</h1>
+        <Button
+          onClick={() => {
+            props.setProjectModalOpen(true);
+          }}
+        >
+          创建项目
+        </Button>
+      </Row>
       <SearchPannel
         param={params}
         setParam={setSearchParams}
@@ -97,6 +108,7 @@ export const ProjectListScreen = () => {
         loading={isLoading}
         users={users || []}
         dataSource={list || []}
+        setProjectModalOpen={props.setProjectModalOpen}
       ></List>
     </Container>
   );

@@ -48,7 +48,7 @@ export const AuthenticatedApp = () => {
           </Dropdown>
         </HeaderRight>
       </Header> */}
-      <PageHeader />
+      <PageHeader setProjectModalOpen={setProjectModalOpen} />
       {/* <Nav>nav</Nav> */}
       <Main>
         <Button
@@ -61,7 +61,12 @@ export const AuthenticatedApp = () => {
         {/* Routes需要被router包裹住 */}
         <Router>
           <Routes>
-            <Route path={'/projects'} element={<ProjectListScreen />}></Route>
+            <Route
+              path={'/projects'}
+              element={
+                <ProjectListScreen setProjectModalOpen={setProjectModalOpen} />
+              }
+            ></Route>
             <Route
               path={'/projects/:projectId/*'}
               element={<ProjectScreen />}
@@ -83,12 +88,14 @@ export const AuthenticatedApp = () => {
   );
 };
 
-const PageHeader = () => {
+const PageHeader = (props: {
+  setProjectModalOpen: (isOpen: boolean) => void;
+}) => {
   return (
     <Header between={true}>
       <HeaderLeft gap={true}>
         <LogoCom onClick={resetRoute} />
-        <ProjectPopover />
+        <ProjectPopover setProjectModalOpen={props.setProjectModalOpen} />
         <div>用户</div>
       </HeaderLeft>
       <HeaderRight>
