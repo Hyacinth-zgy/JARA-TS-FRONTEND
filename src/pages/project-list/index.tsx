@@ -12,7 +12,8 @@ import {useUsers} from '../../utils/user';
 import {useUrlQueryParam} from '../../utils/url';
 import {useProjectsSearchParams} from './util';
 export const ProjectListScreen = (props: {
-  setProjectModalOpen: (isOpen: boolean) => void;
+  // setProjectModalOpen: (isOpen: boolean) => void;
+  projectButton: JSX.Element;
 }) => {
   // const [, setParam] = useState({
   //   name: '',
@@ -87,13 +88,14 @@ export const ProjectListScreen = (props: {
     <Container>
       <Row justify={'space-between'}>
         <h1>项目列表</h1>
-        <Button
+        {/* <Button
           onClick={() => {
             props.setProjectModalOpen(true);
           }}
         >
           创建项目
-        </Button>
+        </Button> */}
+        {props.projectButton}
       </Row>
       <SearchPannel
         param={params}
@@ -108,7 +110,8 @@ export const ProjectListScreen = (props: {
         loading={isLoading}
         users={users || []}
         dataSource={list || []}
-        setProjectModalOpen={props.setProjectModalOpen}
+        // setProjectModalOpen={props.setProjectModalOpen}
+        projectButton={props.projectButton}
       ></List>
     </Container>
   );

@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {ProjectListScreen} from './pages/project-list/index';
 import {useAuth} from './context/auth-context';
 import styled from '@emotion/styled';
-import {Row} from './components/libs';
+import {Row, ButtonNoPadding} from './components/libs';
 import Logo from '../src/assets/images/logon.png';
 import {Dropdown, Menu, Button} from 'antd';
 import {Routes, Route, Navigate} from 'react-router';
@@ -48,7 +48,19 @@ export const AuthenticatedApp = () => {
           </Dropdown>
         </HeaderRight>
       </Header> */}
-      <PageHeader setProjectModalOpen={setProjectModalOpen} />
+      <PageHeader
+        projectButton={
+          <ButtonNoPadding
+            onClick={() => {
+              setProjectModalOpen(true);
+            }}
+            type={'link'}
+          >
+            创建项目
+          </ButtonNoPadding>
+        }
+        // setProjectModalOpen={setProjectModalOpen}
+      />
       {/* <Nav>nav</Nav> */}
       <Main>
         <Button
@@ -64,7 +76,19 @@ export const AuthenticatedApp = () => {
             <Route
               path={'/projects'}
               element={
-                <ProjectListScreen setProjectModalOpen={setProjectModalOpen} />
+                // <ProjectListScreen setProjectModalOpen={setProjectModalOpen} />
+                <ProjectListScreen
+                  projectButton={
+                    <ButtonNoPadding
+                      onClick={() => {
+                        setProjectModalOpen(true);
+                      }}
+                      type={'link'}
+                    >
+                      创建项目
+                    </ButtonNoPadding>
+                  }
+                />
               }
             ></Route>
             <Route
@@ -89,13 +113,15 @@ export const AuthenticatedApp = () => {
 };
 
 const PageHeader = (props: {
-  setProjectModalOpen: (isOpen: boolean) => void;
+  // setProjectModalOpen: (isOpen: boolean) => void;
+  projectButton: JSX.Element;
 }) => {
   return (
     <Header between={true}>
       <HeaderLeft gap={true}>
         <LogoCom onClick={resetRoute} />
-        <ProjectPopover setProjectModalOpen={props.setProjectModalOpen} />
+        {/* <ProjectPopover setProjectModalOpen={props.setProjectModalOpen} /> */}
+        <ProjectPopover {...props} />
         <div>用户</div>
       </HeaderLeft>
       <HeaderRight>
