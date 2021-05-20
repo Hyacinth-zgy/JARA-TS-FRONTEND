@@ -77,6 +77,11 @@ export const AuthenticatedApp = () => {
               path={'/projects'}
               element={
                 // <ProjectListScreen setProjectModalOpen={setProjectModalOpen} />
+                //  projectButton 这种方式是一种component composition 模式
+                //  就是讲业务模块提取来自己处理，然后将处理好的一种形式传递下去，子组件消费该处理好的内容，
+                //  不需要将需要传递的数据一层一层的往下传
+                //  介绍:https://react.docschina.org/docs/context.html
+
                 <ProjectListScreen
                   projectButton={
                     <ButtonNoPadding
