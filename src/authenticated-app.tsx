@@ -63,13 +63,6 @@ export const AuthenticatedApp = () => {
       />
       {/* <Nav>nav</Nav> */}
       <Main>
-        <Button
-          onClick={() => {
-            setProjectModalOpen(true);
-          }}
-        >
-          打开
-        </Button>
         {/* Routes需要被router包裹住 */}
         <Router>
           <Routes>
