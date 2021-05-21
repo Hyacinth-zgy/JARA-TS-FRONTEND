@@ -6,6 +6,8 @@ import {Link} from 'react-router-dom';
 import {Pin} from '../../components/pin';
 import {useEditProject, useAddProject} from '../../utils/project';
 import {ButtonNoPadding} from '../../components/libs';
+import {useDispatch} from 'react-redux';
+import {projectListActons} from './project-list.slice';
 interface Project {
   id: number;
   name: string;
@@ -26,7 +28,7 @@ interface listProps extends TableProps<Project> {
   users: User[];
   refresh?: () => void;
   // setProjectModalOpen: (isOpen: boolean) => void;
-  projectButton: JSX.Element;
+  // projectButton: JSX.Element;
 }
 // 原来
 // export const List = ({list, users}: listProps) => {
@@ -35,6 +37,7 @@ export const List = ({users, ...props}: listProps) => {
   const {mutate} = useEditProject();
   const pinProject = (id: number) => (pin: boolean) =>
     mutate({id, pin}).then(props.refresh);
+  const dispatch = useDispatch();
   return (
     <Table
       pagination={false}
@@ -108,13 +111,15 @@ export const List = ({users, ...props}: listProps) => {
                 overlay={
                   <Menu>
                     <Menu.Item key={'edit'}>
-                      {/* <ButtonNoPadding
-                        onClick={() => props.setProjectModalOpen(true)}
+                      <ButtonNoPadding
+                        onClick={() =>
+                          dispatch(projectListActons.openProjectModal())
+                        }
                         type={'link'}
                       >
                         编辑
-                      </ButtonNoPadding> */}
-                      {props.projectButton}
+                      </ButtonNoPadding>
+                      {/* {props.projectButton} */}
                     </Menu.Item>
                   </Menu>
                 }

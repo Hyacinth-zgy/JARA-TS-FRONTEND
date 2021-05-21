@@ -16,7 +16,7 @@ import {ProjectPopover} from './components/project-popover';
 export const AuthenticatedApp = () => {
   // const {logout, user} = useAuth();
   useDocumentTitle('项目列表', true);
-  const [projectModalOpen, setProjectModalOpen] = useState(false);
+  // const [projectModalOpen, setProjectModalOpen] = useState(false);
   return (
     <Container>
       {/* <Helmet>
@@ -49,17 +49,17 @@ export const AuthenticatedApp = () => {
         </HeaderRight>
       </Header> */}
       <PageHeader
-        projectButton={
-          <ButtonNoPadding
-            onClick={() => {
-              setProjectModalOpen(true);
-            }}
-            type={'link'}
-          >
-            创建项目
-          </ButtonNoPadding>
-        }
-        // setProjectModalOpen={setProjectModalOpen}
+      // projectButton={
+      // <ButtonNoPadding
+      //   onClick={() => {
+      //     setProjectModalOpen(true);
+      //   }}
+      //   type={'link'}
+      // >
+      //   创建项目
+      // </ButtonNoPadding>
+      // }
+      // setProjectModalOpen={setProjectModalOpen}
       />
       {/* <Nav>nav</Nav> */}
       <Main>
@@ -76,16 +76,16 @@ export const AuthenticatedApp = () => {
                 //  介绍:https://react.docschina.org/docs/context.html
 
                 <ProjectListScreen
-                  projectButton={
-                    <ButtonNoPadding
-                      onClick={() => {
-                        setProjectModalOpen(true);
-                      }}
-                      type={'link'}
-                    >
-                      创建项目
-                    </ButtonNoPadding>
-                  }
+                // projectButton={
+                //   <ButtonNoPadding
+                //     onClick={() => {
+                //       setProjectModalOpen(true);
+                //     }}
+                //     type={'link'}
+                //   >
+                //     创建项目
+                //   </ButtonNoPadding>
+                // }
                 />
               }
             ></Route>
@@ -100,26 +100,18 @@ export const AuthenticatedApp = () => {
       </Main>
       {/* <Aside>asisde</Aside> */}
       <Footer>Footer</Footer>
-      <ProjectModal
-        projectModalOpen={projectModalOpen}
-        onClose={() => {
-          setProjectModalOpen(false);
-        }}
-      ></ProjectModal>
+      <ProjectModal></ProjectModal>
     </Container>
   );
 };
 
-const PageHeader = (props: {
-  // setProjectModalOpen: (isOpen: boolean) => void;
-  projectButton: JSX.Element;
-}) => {
+const PageHeader = () => {
   return (
     <Header between={true}>
       <HeaderLeft gap={true}>
         <LogoCom onClick={resetRoute} />
         {/* <ProjectPopover setProjectModalOpen={props.setProjectModalOpen} /> */}
-        <ProjectPopover {...props} />
+        <ProjectPopover />
         <div>用户</div>
       </HeaderLeft>
       <HeaderRight>

@@ -11,10 +11,9 @@ import {useProjects} from '../../utils/project';
 import {useUsers} from '../../utils/user';
 import {useUrlQueryParam} from '../../utils/url';
 import {useProjectsSearchParams} from './util';
-export const ProjectListScreen = (props: {
-  // setProjectModalOpen: (isOpen: boolean) => void;
-  projectButton: JSX.Element;
-}) => {
+import {useDispatch} from 'react-redux';
+import {projectListActons} from './project-list.slice';
+export const ProjectListScreen = () => {
   // const [, setParam] = useState({
   //   name: '',
   //   personId: '',
@@ -82,20 +81,20 @@ export const ProjectListScreen = (props: {
   //   client('users').then(setUsers);
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, []);
-
+  const dispatch = useDispatch();
   const {data: users} = useUsers();
   return (
     <Container>
       <Row justify={'space-between'}>
         <h1>项目列表</h1>
-        {/* <Button
+        <Button
           onClick={() => {
-            props.setProjectModalOpen(true);
+            dispatch(projectListActons.openProjectModal());
           }}
         >
           创建项目
-        </Button> */}
-        {props.projectButton}
+        </Button>
+        {/* {props.projectButton} */}
       </Row>
       <SearchPannel
         param={params}
@@ -111,7 +110,7 @@ export const ProjectListScreen = (props: {
         users={users || []}
         dataSource={list || []}
         // setProjectModalOpen={props.setProjectModalOpen}
-        projectButton={props.projectButton}
+        // projectButton={props.projectButton}
       ></List>
     </Container>
   );
