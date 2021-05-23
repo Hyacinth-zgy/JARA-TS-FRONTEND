@@ -3,6 +3,7 @@ import {useAuth} from '../../context/auth-context';
 import {Form, Input, Button} from 'antd';
 import styled from '@emotion/styled';
 import {useAsync} from '../../utils/useAsync';
+import {useDispatch} from 'react-redux';
 interface onErrorFace {
   (error: Error | null): void;
 }
